@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div``
+const Header = styled.div``
+const Title = styled.h1``
+const LoginPrompt = styled.span``
+const Form = styled.form``
+const Username = styled.input``
+const Password = styled.input``
+const SignUp = styled.div``
+
 
 function Login(props) {
     const [user, setUser] = useState({ username: "", password: "" })
 
     function inputHandler(event) {
-        const updateduser = { ...user, [event.target.name] : event.target.value };
+        const updatedUser = { ...user, [event.target.name] : event.target.value };
         setUser(updatedUser);
     }
 
@@ -55,7 +66,7 @@ function Login(props) {
 
             </Form>
 
-            <Signup> or Sign up <Link to = "/register">Here</Link></Signup>
+            <SignUp> or Sign up <Link to = "/register">Here</Link></SignUp>
 
         </Container>
     )

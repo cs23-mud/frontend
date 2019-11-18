@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Form = styled.form``
+const Title = styled.h1``
+const Button = styled.button``
+const Input = styled.div``
+const Username = styled.input``
+const Password = styled.input``
+const Password2 = styled.input``
+const Container = styled.div``
+const SignUp = styled.div``
 
 const Register = (props) => {
 
@@ -58,7 +69,7 @@ const Register = (props) => {
                     </Input>
 
                     <Input>
-                        <Password
+                        <Password2
                             placeholder = "Confirm Password"
                             type = "password2"
                             name = "password2"
