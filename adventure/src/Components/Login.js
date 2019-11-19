@@ -10,6 +10,7 @@ const LoginPrompt = styled.span``;
 const Form = styled.form``;
 const Username = styled.input``;
 const Password = styled.input``;
+const Button = styled.button``;
 const SignUp = styled.div``;
 
 function Login(props) {
@@ -63,7 +64,7 @@ function Login(props) {
           value={user.password}
           onChange={inputHandler}
         />
-        <button type='submit'>Submit</button>
+        <Button type='submit'>Submit</Button>
       </Form>
 
       <SignUp>
