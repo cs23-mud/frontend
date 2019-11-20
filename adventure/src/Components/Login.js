@@ -13,6 +13,9 @@ const Password = styled.input``;
 const Button = styled.button``;
 const SignUp = styled.div``;
 
+// Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
+const baseURL = 'https://cs23-mud.herokuapp.com';
+
 function Login(props) {
   const [user, setUser] = useState({ username: '', password: '' });
 
@@ -24,7 +27,7 @@ function Login(props) {
   function submitHandler(event) {
     event.preventDefault();
     axios
-      .post(`https://cs23-mud.herokuapp.com/api/login/`, user)
+      .post(`${baseURL}/api/login/`, user)
       .then(res => {
         if (res.status === 200 && res.data) {
           const token = res.data.key;
