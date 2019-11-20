@@ -10,6 +10,7 @@ const LoginPrompt = styled.span``;
 const Form = styled.form``;
 const Username = styled.input``;
 const Password = styled.input``;
+const Button = styled.button``;
 const SignUp = styled.div``;
 
 function Login(props) {
@@ -28,7 +29,7 @@ function Login(props) {
         if (res.status === 200 && res.data) {
           const token = res.data.key;
           localStorage.setItem('token', `Token ${token}`);
-          props.history.push('/rooms');
+          props.history.push('/world');
         }
       })
       .catch(err => {
@@ -63,7 +64,7 @@ function Login(props) {
           value={user.password}
           onChange={inputHandler}
         />
-        <button type='submit'>Submit</button>
+        <Button type='submit'>Submit</Button>
       </Form>
 
       <SignUp>
