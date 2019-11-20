@@ -29,7 +29,7 @@ function Login(props) {
         if (res.status === 200 && res.data) {
           const token = res.data.key;
           localStorage.setItem('token', `Token ${token}`);
-          props.history.push('/rooms');
+          props.history.push('/world');
         }
       })
       .catch(err => {
