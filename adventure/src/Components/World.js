@@ -2,6 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
+import vertPath from '../assets/vertical-path.png';
+import horizPath from '../assets/horizontal-path.png';
+import wall from '../assets/wall.png';
+import whitespaceFiller from '../assets/whitespace.png';
+import hero from '../assets/hero.png';
+import room from '../assets/rooms.png';
+
 const Container = styled.div``;
 const Header = styled.div``;
 const Title = styled.h1``;
@@ -14,20 +21,25 @@ const SouthButton = styled.button`
   margin: 20px auto 0;
 `;
 
+// Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
+const baseURL = 'https://cs23-mud.herokuapp.com';
+
 class World extends React.Component {
   constructor(props) {
     super(props);
     this.token = localStorage.getItem('token');
     this.state = {
+      mapOpen: false,
       title: '',
       description: '',
-      error_msg: ''
+      error_msg: '',
+      world: ''
     };
   }
 
   componentDidMount() {
     axiosWithAuth(this.token)
-      .get(`https://cs23-mud.herokuapp.com/api/adv/init/`)
+      .get(`${baseURL}/api/adv/init/`)
       .then(res => {
         console.log(res.data);
         const currentRoom = res.data;
@@ -36,6 +48,7 @@ class World extends React.Component {
           description: currentRoom.description,
           error_msg: currentRoom.error_msg
         });
+        console.log(this.state.world);
       })
       .catch(err => {
         if (err) console.log(err);
@@ -44,7 +57,7 @@ class World extends React.Component {
 
   submitMove(direction) {
     axiosWithAuth(this.token)
-      .post(`https://cs23-mud.herokuapp.com/api/adv/move/`, { direction })
+      .post(`${baseURL}/api/adv/move/`, { direction })
       .then(res => {
         console.log(res.data);
         const currentRoom = res.data;
@@ -59,7 +72,57 @@ class World extends React.Component {
       });
   }
 
+  getMap() {
+    axiosWithAuth(this.token)
+      .get(`${baseURL}/api/adv/rooms/`)
+      .then(res => {
+        console.log(res.data);
+        const currentRoom = res.data;
+        this.setState({
+          world: res.data.world,
+          mapOpen: true
+        });
+        console.log(this.state.world);
+      })
+      .catch(err => {
+        if (err) console.log(err);
+      });
+  }
+
+  buildMap(width) {
+    let worldMap = [];
+    const worldString = this.state.world;
+
+    for (let i = 0; i < worldString.length; i++) {
+      if (i > 0 && i % width === 0) {
+        worldMap.push(<br key={`br ${i / width}`} />);
+      }
+      if (worldString[i] === ' ') {
+        worldMap.push(<img key={i} src={whitespaceFiller} />);
+      } else if (worldString[i] === '#') {
+        worldMap.push(<img key={i} src={wall} />);
+      } else if (worldString[i] === '|') {
+        worldMap.push(<img key={i} src={vertPath} />);
+      } else if (worldString[i] === '-') {
+        worldMap.push(<img key={i} src={horizPath} />);
+      } else if (worldString[i] === '\n') {
+      } else {
+        worldMap.push(<img key={i} src={room} />);
+      }
+    }
+    return worldMap;
+  }
+
   render() {
+    let width = 0;
+    for (let i = 0; i < this.state.world.length; i++) {
+      if (this.state.world[i] === '#' || this.state.world[i] === ' ') {
+        width += 1;
+      } else {
+        break;
+      }
+    }
+
     return (
       <Container>
         <Header>
@@ -81,6 +144,21 @@ class World extends React.Component {
         <SouthButton onClick={() => this.submitMove('s')}>
           Head South
         </SouthButton>
+        <Container style={{ margin: '0 20%' }}>
+          {this.state.mapOpen ? (
+            <button onClick={() => this.setState({ mapOpen: false })}>
+              Hide Map
+            </button>
+          ) : (
+            <button onClick={() => this.getMap()}>Show Map</button>
+          )}
+
+          {this.state.mapOpen ? (
+            <div>{this.buildMap(width + 1)}</div>
+          ) : (
+            <div></div>
+          )}
+        </Container>
       </Container>
     );
   }
