@@ -41,6 +41,7 @@ class World extends React.Component {
         if (err) console.log(err);
       });
   }
+
   submitMove(direction) {
     axiosWithAuth(this.token)
       .post(`https://cs23-mud.herokuapp.com/api/adv/move/`, { direction })
@@ -73,7 +74,7 @@ class World extends React.Component {
           <Container style={{ margin: '0 auto' }}>
             <p>{this.state.title || ''}</p>
             <p>{this.state.description || 'Loading...'}</p>
-            <p>{this.state.error_msg || ''}</p>
+            <p style={{ color: 'red' }}>{this.state.error_msg || ''}</p>
           </Container>
           <button onClick={() => this.submitMove('e')}>Head East</button>
         </Container>
