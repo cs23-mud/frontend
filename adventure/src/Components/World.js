@@ -4,7 +4,7 @@ import axios from "axios"
 const World = () => {
 
     useEffect(() => {
-        axios.get("https://cs23-mud.herokuapp.com/api/adv/init", {
+        axios.get("http://localhost:8000/api/adv/init/", {
             headers: {
                 Authorization: localStorage.getItem("token")
             }

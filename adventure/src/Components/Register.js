@@ -22,7 +22,7 @@ const Register = props => {
 
   const registerUser = newUser => {
     axios
-      .post(`https://cs23-mud.herokuapp.com/api/registration/`, newUser)
+      .post(`http://localhost:8000/api/registration/`, newUser)
       .then(res => {
         console.log('response', res);
         const token = res.data.key;

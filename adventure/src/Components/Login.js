@@ -23,7 +23,7 @@ function Login(props) {
   function submitHandler(event) {
     event.preventDefault();
     axios
-      .post(`https://cs23-mud.herokuapp.com/api/login/`, user)
+      .post(`http://localhost:8000/api/login/`, user)
       .then(res => {
         if (res.status === 200 && res.data) {
           const token = res.data.key;
