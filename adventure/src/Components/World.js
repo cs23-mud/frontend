@@ -14,7 +14,7 @@ const Container = styled.div`
   ${props => props.main && css`
     position: relative
     background: #DBE6F6;
-
+  
     height: 100vh
   `}
   ${props => props.ma && css`
@@ -26,15 +26,17 @@ const Container = styled.div`
 const Header = styled.div``;
 const Title = styled.h1`
   text-align: center;
-  font-size: 2em;
+  font-size: 2.5em;
+  letter-spacing: 2px;
+  text-transform: uppercase
 `;
 const Movement = styled.div`
   width: 600px;
-  padding: 20px;
+  padding: 25px;
   position: absolute;
   border-radius: 10px;
   background: ##DBE6F6
-
+  text-align: center
   right: 5%;
   top: 50%
   border: 2px solid black;
