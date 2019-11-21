@@ -114,13 +114,13 @@ class World extends React.Component {
           worldString[i] + worldString[i + 1] + worldString[i + 2];
         if (this.state.roomId === room_string) {
           worldMap.push(<img key={i} src={room} />);
-          worldMap.push(<img key={i} src={hero} />);
-          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i + 1} src={hero} />);
+          worldMap.push(<img key={i + 2} src={room} />);
           i += 2;
         } else {
           worldMap.push(<img key={i} src={room} />);
-          worldMap.push(<img key={i} src={room} />);
-          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i + 1} src={room} />);
+          worldMap.push(<img key={i + 2} src={room} />);
           i += 2;
         }
       }
