@@ -70,7 +70,10 @@ const Button = styled.button`
   margin: 0 auto 20px;
 `}
   &:hover{
-    transform: translateY(-3px)
+    cursor: pointer;
+  }
+  &:active{
+    transform: translateY(5px)
   }
 `;
 // Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
@@ -210,7 +213,7 @@ class World extends React.Component {
           <Container style={{ margin: "0 auto" }}>
             <p>{this.state.title || ""}</p>
             <p>{this.state.description || "Loading..."}</p>
-            <p style={{ color: "red" }}>{this.state.error_msg || ""}</p>
+            <p style={{ color: "red" }}>{this.state.error_msg}</p>
           </Container>
           <Button onClick={() => this.submitMove("e")}>Head East</Button>
         </Container>
