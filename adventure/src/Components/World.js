@@ -10,12 +10,32 @@ import hero from "../assets/hero.png";
 import room from "../assets/rooms.png";
 
 
-const Container = styled.div``;
+const Container = styled.div`
+  ${props => props.main && css`
+    position: relative
+    background: #C5796D
+    height: 100vh
+  `}
+  ${props => props.ma && css`
+  position: relative
+  background: #C5796D
+  height: 100vh
+`}
+`;
 const Header = styled.div``;
 const Title = styled.h1`
   text-align: center
 `;
-
+const Movement = styled.div`
+  width: 600px;
+  padding: 20px;
+  position: absolute;
+  border-radius: 10px;
+  background: #DBE6F6;
+  right: 5%;
+  top: 50%
+  border: 2px solid black;
+`;
 const Button = styled.button`
   padding: 10px 20px 10px 20px;
   border-radius: 5px;
@@ -25,7 +45,7 @@ const Button = styled.button`
   font-weight: bolder;
   font-size: 17px;
   background: white;
-  color: palevioletred;
+  color: #C5796D;
   margin-bottom: 20px;
   ${props => props.north && css`
   display: block;
@@ -144,7 +164,7 @@ class World extends React.Component {
     }
 
     return (
-      <Container>
+      <Container main>
         <Header>
           <Title>MUD Adventure!</Title>
         </Header>
@@ -166,7 +186,7 @@ class World extends React.Component {
           Head South
         </Button>
         </Movement>
-        <Container style={{ margin: "0 20%" }}>
+        <Container style={{ margin: "0 10%" }}>
           {this.state.mapOpen ? (
             <Button onClick={() => this.setState({ mapOpen: false })}>
               Hide Map
@@ -175,12 +195,13 @@ class World extends React.Component {
             <Button onClick={() => this.getMap()}>Show Map</Button>
           )}
           
-
+            <Container map>
           {this.state.mapOpen ? (
             <div>{this.buildMap(width + 1)}</div>
           ) : (
             <div></div>
           )}
+          </Container>
         </Container>
       </Container>
     );
