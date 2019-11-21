@@ -3,15 +3,73 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Form = styled.form``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const Form = styled.form`
+  margin-bottom: 10px;
+  justify-content: center;
+`;
 const Title = styled.h1``;
-const Button = styled.button``;
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  border-color: black;
+  border-width: 2px;
+  text-align: center;
+  font-weight: bolder;
+  background: grey;
+  font-size: 17px;
+  margin-bottom: 20px;
+`;
 const Input = styled.div``;
-const Username = styled.input``;
-const Password = styled.input``;
-const Password2 = styled.input``;
-const Container = styled.div``;
-const SignUp = styled.div``;
+const Username = styled.input`
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  border-color: black;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+const Password = styled.input`
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  border-color: black;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+const Password2 = styled.input`
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  border-color: black;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+const Text = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+const SignUp = styled.div`
+  font-size: 12px;
+  color: black;
+`;
+
+// Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
+const baseURL = 'https://cs23-mud.herokuapp.com';
 
 const Register = props => {
   const [inputs, setInputs] = useState({
@@ -22,7 +80,7 @@ const Register = props => {
 
   const registerUser = newUser => {
     axios
-      .post(`https://cs23-mud.herokuapp.com/api/registration/`, newUser)
+      .post(`${baseURL}/api/registration/`, newUser)
       .then(res => {
         console.log('response', res);
         const token = res.data.key;
@@ -54,7 +112,7 @@ const Register = props => {
     <Container>
       <Form onSubmit={handleSubmit}>
         <Title>Create an Account</Title>
-        <div>
+        <Text>
           <Input>
             <Username
               placeholder='Username'
@@ -87,10 +145,11 @@ const Register = props => {
               required
             />
           </Input>
-        </div>
-        <Button type='submit'>Sign up</Button>
+        </Text>
+        <Container>
+          <Button type='submit'>Sign up</Button>
+        </Container>
       </Form>
-
       <SignUp>
         Already Sign up? <Link to='/'>Login Here</Link>
       </SignUp>
