@@ -47,6 +47,7 @@ class World extends React.Component {
         this.setState({
           title: currentRoom.title,
           description: currentRoom.description,
+          roomId: currentRoom.roomId,
           error_msg: currentRoom.error_msg
         });
         console.log(this.state.world);
