@@ -13,7 +13,8 @@ import room from "../assets/rooms.png";
 const Container = styled.div`
   ${props => props.main && css`
     position: relative
-    background: #C5796D
+    background: #DBE6F6;
+
     height: 100vh
   `}
   ${props => props.ma && css`
@@ -24,17 +25,27 @@ const Container = styled.div`
 `;
 const Header = styled.div``;
 const Title = styled.h1`
-  text-align: center
+  text-align: center;
+  font-size: 2em;
 `;
 const Movement = styled.div`
   width: 600px;
   padding: 20px;
   position: absolute;
   border-radius: 10px;
-  background: #DBE6F6;
+  background: ##DBE6F6
+
   right: 5%;
   top: 50%
   border: 2px solid black;
+  p  {
+    font-size: 1.25em;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #222
+
+  }
 `;
 const Button = styled.button`
   padding: 10px 20px 10px 20px;
@@ -44,9 +55,12 @@ const Button = styled.button`
   text-align: center;
   font-weight: bolder;
   font-size: 17px;
-  background: white;
+  background: ;
+  background: #DBE7F6
+  box-shadow: 0 2px 5px 0 #000
   color: #C5796D;
   margin-bottom: 20px;
+  transition: all .2s ease-in-out
   ${props => props.north && css`
   display: block;
   margin: 0 auto 20px;
@@ -55,6 +69,9 @@ const Button = styled.button`
   display: block;
   margin: 0 auto 20px;
 `}
+  &:hover{
+    transform: translateY(-3px)
+  }
 `;
 // Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
 const baseURL = "https://cs23-mud.herokuapp.com";
@@ -65,10 +82,11 @@ class World extends React.Component {
     this.token = localStorage.getItem("token");
     this.state = {
       mapOpen: false,
-      title: "",
-      description: "",
-      error_msg: "",
-      world: ""
+      roomId: '',
+      title: '',
+      description: '',
+      error_msg: '',
+      world: ''
     };
   }
 
@@ -81,6 +99,7 @@ class World extends React.Component {
         this.setState({
           title: currentRoom.title,
           description: currentRoom.description,
+          roomId: currentRoom.roomId,
           error_msg: currentRoom.error_msg
         });
         console.log(this.state.world);
@@ -99,6 +118,7 @@ class World extends React.Component {
         this.setState({
           title: currentRoom.title,
           description: currentRoom.description,
+          roomId: currentRoom.roomId,
           error_msg: currentRoom.error_msg
         });
       })
@@ -115,6 +135,7 @@ class World extends React.Component {
         const currentRoom = res.data;
         this.setState({
           world: res.data.world,
+          roomId: res.data.roomId,
           mapOpen: true
         });
         console.log(this.state.world);
@@ -144,8 +165,19 @@ class World extends React.Component {
         worldMap.push(<img key={i} src={horizPath} />);
       } else if (worldString[i] === "\n") {
       } else {
-        console.log("ascii", i, worldString[i]);
-        worldMap.push(<img key={i} src={room} />);
+        const room_string =
+          worldString[i] + worldString[i + 1] + worldString[i + 2];
+        if (this.state.roomId === room_string) {
+          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i + 1} src={hero} />);
+          worldMap.push(<img key={i + 2} src={room} />);
+          i += 2;
+        } else {
+          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i + 1} src={room} />);
+          worldMap.push(<img key={i + 2} src={room} />);
+          i += 2;
+        }
       }
       // if(worldMap)
       // worldMap[0] = <img key={i} src={hero} />
