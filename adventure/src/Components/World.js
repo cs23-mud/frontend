@@ -30,6 +30,7 @@ class World extends React.Component {
     this.token = localStorage.getItem('token');
     this.state = {
       mapOpen: false,
+      roomId: '',
       title: '',
       description: '',
       error_msg: '',
@@ -64,6 +65,7 @@ class World extends React.Component {
         this.setState({
           title: currentRoom.title,
           description: currentRoom.description,
+          roomId: currentRoom.roomId,
           error_msg: currentRoom.error_msg
         });
       })
@@ -80,6 +82,7 @@ class World extends React.Component {
         const currentRoom = res.data;
         this.setState({
           world: res.data.world,
+          roomId: res.data.roomId,
           mapOpen: true
         });
         console.log(this.state.world);
@@ -107,7 +110,19 @@ class World extends React.Component {
         worldMap.push(<img key={i} src={horizPath} />);
       } else if (worldString[i] === '\n') {
       } else {
-        worldMap.push(<img key={i} src={room} />);
+        const room_string =
+          worldString[i] + worldString[i + 1] + worldString[i + 2];
+        if (this.state.roomId === room_string) {
+          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i} src={hero} />);
+          worldMap.push(<img key={i} src={room} />);
+          i += 2;
+        } else {
+          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i} src={room} />);
+          worldMap.push(<img key={i} src={room} />);
+          i += 2;
+        }
       }
     }
     return worldMap;
