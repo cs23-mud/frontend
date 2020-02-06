@@ -1,23 +1,26 @@
-import React from "react";
-import styled, {css} from "styled-components";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
-import vertPath from "../assets/vertical-path.png";
-import horizPath from "../assets/horizontal-path.png";
-import wall from "../assets/wall.png";
-import whitespaceFiller from "../assets/whitespace.png";
-import hero from "../assets/hero.png";
-import room from "../assets/rooms.png";
-
+import vertPath from '../assets/vertical-path.png';
+import horizPath from '../assets/horizontal-path.png';
+import wall from '../assets/wall.png';
+import whitespaceFiller from '../assets/whitespace.png';
+import hero from '../assets/hero.png';
+import room from '../assets/rooms.png';
 
 const Container = styled.div`
-  ${props => props.main && css`
+  ${props =>
+    props.main &&
+    css`
     position: relative
     background: #DBE6F6;
   
     height: 100vh
   `}
-  ${props => props.ma && css`
+  ${props =>
+    props.ma &&
+    css`
   position: relative
   background: #C5796D
   height: 100vh
@@ -28,7 +31,7 @@ const Title = styled.h1`
   text-align: center;
   font-size: 2.5em;
   letter-spacing: 2px;
-  text-transform: uppercase
+  text-transform: uppercase;
 `;
 const Movement = styled.div`
   width: 600px;
@@ -63,14 +66,18 @@ const Button = styled.button`
   color: #C5796D;
   margin-bottom: 20px;
   transition: all .2s ease-in-out
-  ${props => props.north && css`
-  display: block;
-  margin: 0 auto 20px;
-`}
-  ${props => props.south && css`
-  display: block;
-  margin: 0 auto 20px;
-`}
+  ${props =>
+    props.north &&
+    css`
+      display: block;
+      margin: 0 auto 20px;
+    `}
+  ${props =>
+    props.south &&
+    css`
+      display: block;
+      margin: 0 auto 20px;
+    `}
   &:hover{
     cursor: pointer;
   }
@@ -79,12 +86,12 @@ const Button = styled.button`
   }
 `;
 // Change to http://127.0.0.1:8000 for local testing, https://cs23-mud.herokuapp.com for deployed server
-const baseURL = "https://cs23-mud.herokuapp.com";
+const baseURL = 'https://cs23-mud.herokuapp.com';
 
 class World extends React.Component {
   constructor(props) {
     super(props);
-    this.token = localStorage.getItem("token");
+    this.token = localStorage.getItem('token');
     this.state = {
       mapOpen: false,
       roomId: '',
@@ -160,15 +167,15 @@ class World extends React.Component {
       }
 
       // worldMap.push(<img src={hero}/>)
-      if (worldString[i] === " ") {
+      if (worldString[i] === ' ') {
         worldMap.push(<img key={i} src={whitespaceFiller} />);
-      } else if (worldString[i] === "#") {
+      } else if (worldString[i] === '#') {
         worldMap.push(<img key={i} src={wall} />);
-      } else if (worldString[i] === "|") {
+      } else if (worldString[i] === '|') {
         worldMap.push(<img key={i} src={vertPath} />);
-      } else if (worldString[i] === "-") {
+      } else if (worldString[i] === '-') {
         worldMap.push(<img key={i} src={horizPath} />);
-      } else if (worldString[i] === "\n") {
+      } else if (worldString[i] === '\n') {
       } else {
         const room_string =
           worldString[i] + worldString[i + 1] + worldString[i + 2];
@@ -193,12 +200,17 @@ class World extends React.Component {
   render() {
     let width = 0;
     for (let i = 0; i < this.state.world.length; i++) {
-      if (this.state.world[i] === "#" || this.state.world[i] === " ") {
+      if (this.state.world[i] === '#' || this.state.world[i] === ' ') {
         width += 1;
       } else {
         break;
       }
     }
+
+    const strings = this.state.description.split('SPLIT');
+    const roomDesc = strings[0];
+    const roomImage = strings[1];
+    console.log(roomImage, roomDesc);
 
     return (
       <Container main>
@@ -206,24 +218,25 @@ class World extends React.Component {
           <Title>MUD Adventure!</Title>
         </Header>
 
-      <Movement>
-        <Button north onClick={() => this.submitMove("n")}>
-          Head North
-        </Button>
-        <Container style={{ display: "flex" }}>
-          <Button onClick={() => this.submitMove("w")}>Head West</Button>
-          <Container style={{ margin: "0 auto" }}>
-            <p>{this.state.title || ""}</p>
-            <p>{this.state.description || "Loading..."}</p>
-            <p style={{ color: "red" }}>{this.state.error_msg}</p>
+        <Movement>
+          <Button north onClick={() => this.submitMove('n')}>
+            Head North
+          </Button>
+          <Container style={{ display: 'flex' }}>
+            <Button onClick={() => this.submitMove('w')}>Head West</Button>
+            <Container style={{ margin: '0 auto' }}>
+              <img src={roomImage}></img>
+              <p>{this.state.title || ''}</p>
+              <p>{roomDesc || 'Loading...'}</p>
+              <p style={{ color: 'red' }}>{this.state.error_msg}</p>
+            </Container>
+            <Button onClick={() => this.submitMove('e')}>Head East</Button>
           </Container>
-          <Button onClick={() => this.submitMove("e")}>Head East</Button>
-        </Container>
-        <Button south onClick={() => this.submitMove("s")}>
-          Head South
-        </Button>
+          <Button south onClick={() => this.submitMove('s')}>
+            Head South
+          </Button>
         </Movement>
-        <Container style={{ margin: "0 10%" }}>
+        <Container style={{ margin: '0 10%' }}>
           {this.state.mapOpen ? (
             <Button onClick={() => this.setState({ mapOpen: false })}>
               Hide Map
@@ -231,13 +244,13 @@ class World extends React.Component {
           ) : (
             <Button onClick={() => this.getMap()}>Show Map</Button>
           )}
-          
-            <Container map>
-          {this.state.mapOpen ? (
-            <div>{this.buildMap(width + 1)}</div>
-          ) : (
-            <div></div>
-          )}
+
+          <Container map>
+            {this.state.mapOpen ? (
+              <div>{this.buildMap(width + 1)}</div>
+            ) : (
+              <div></div>
+            )}
           </Container>
         </Container>
       </Container>
